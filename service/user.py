@@ -46,12 +46,18 @@ class UserService:
     def generate_tokens(self, data):
         min30 = datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=30)
         data['exp'] = calendar.timegm(min30.timetuple())
-        access_token = jwt.encode(data, SECRET, algorithm=[ALGO])
+        access_token = jwt.encode(data, SECRET, algorithm=ALGO)
         day130 = datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=130)
         data['exp'] = calendar.timegm(day130.timetuple())
-        refresh_token = jwt.encode(data, SECRET, algorithm=[ALGO])
+        refresh_token = jwt.encode(data, SECRET, algorithm=ALGO)
         return {
             'access_token': access_token,
             'refresh_token': refresh_token
         }
 
+    def check_token(self, token):
+        try:
+            jwt.decode(token, SECRET, algorithms=[ALGO])
+            return True
+        except Exception:
+            return False
