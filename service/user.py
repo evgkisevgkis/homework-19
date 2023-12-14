@@ -1,3 +1,5 @@
+import hmac
+
 from dao.user import UserDAO
 import hashlib
 import base64
@@ -31,3 +33,7 @@ class UserService:
             PWD_HASH_ITERATIONS
         )
         return base64.b64encode(hash_digest)
+
+    def compare_passwords(self, other_password, another_password) -> bool:
+        hashik = self.generate_password(other_password)
+        return hmac.compare_digest(hashik, another_password)
