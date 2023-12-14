@@ -16,6 +16,9 @@ class UserService:
     def get_one(self, uid):
         return self.dao.get_one(uid)
 
+    def get_by_username(self, username):
+        return self.dao.get_by_username(username)
+
     def create(self, data):
         return self.dao.create(data)
 
