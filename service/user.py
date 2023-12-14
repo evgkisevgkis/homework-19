@@ -1,9 +1,11 @@
 import hmac
-
+import jwt
+import calendar
+import datetime
 from dao.user import UserDAO
 import hashlib
 import base64
-from constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS
+from constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS, SECRET, ALGO
 
 
 class UserService:
@@ -40,3 +42,16 @@ class UserService:
     def compare_passwords(self, other_password, another_password) -> bool:
         hashik = self.generate_password(other_password)
         return hmac.compare_digest(hashik, another_password)
+
+    def generate_tokens(self, data):
+        min30 = datetime.datetime.now(datetime.UTC) + datetime.timedelta(minutes=30)
+        data['exp'] = calendar.timegm(min30.timetuple())
+        access_token = jwt.encode(data, SECRET, algorithm=[ALGO])
+        day130 = datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=130)
+        data['exp'] = calendar.timegm(day130.timetuple())
+        refresh_token = jwt.encode(data, SECRET, algorithm=[ALGO])
+        return {
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        }
+
