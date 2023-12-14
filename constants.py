@@ -1,0 +1,2 @@
+PWD_HASH_SALT = 'secret_here'
+PWD_HASH_ITERATIONS = 100_000
