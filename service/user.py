@@ -34,14 +34,13 @@ class UserService:
             password.encode('utf-8'),
             PWD_HASH_SALT.encode('utf-8'),
             PWD_HASH_ITERATIONS
-        ).decode("utf-8", "ignore")
+        )
 
     def compare_passwords(self, other_password, another_password) -> bool:
-        decoded_password = base64.b64decode(other_password)
         hash_digest = hashlib.pbkdf2_hmac(
             'sha256',
             another_password.encode('utf-8'),
             PWD_HASH_SALT.encode('utf-8'),
             PWD_HASH_ITERATIONS
         )
-        return hmac.compare_digest(decoded_password, hash_digest)
+        return hmac.compare_digest(other_password, hash_digest)
