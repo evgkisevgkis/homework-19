@@ -21,6 +21,7 @@ class GenresView(Resource):
         new_genre = genre_service.create(data)
         return 'Created', 201
 
+
 @genre_ns.route('/<int:gid>')
 class GenreView(Resource):
     @auth_required
