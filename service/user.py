@@ -32,7 +32,7 @@ class UserService:
         return hashlib.pbkdf2_hmac(
             'sha256',
             password.encode('utf-8'),
-            PWD_HASH_SALT,
+            PWD_HASH_SALT.encode('utf-8'),
             PWD_HASH_ITERATIONS
         ).decode("utf-8", "ignore")
 
@@ -41,7 +41,7 @@ class UserService:
         hash_digest = hashlib.pbkdf2_hmac(
             'sha256',
             another_password.encode('utf-8'),
-            PWD_HASH_SALT,
+            PWD_HASH_SALT.encode('utf-8'),
             PWD_HASH_ITERATIONS
         )
         return hmac.compare_digest(decoded_password, hash_digest)
